@@ -13,7 +13,7 @@ pipeline{
     }
 
     stages{
-        stage('read the version'){
+        stage('Read the version'){
             steps{
                 script{
                 // defining variable
@@ -21,6 +21,12 @@ pipeline{
                 appVersion = packageJson.version // dynamically fetch the version from package.json
                 echo "App version: ${appVersion}" // 1.0.0 
                 }
+            }
+        }
+
+        stage('Install Dependencies'){
+            steps{
+                sh 'npm install'
             }
         }
     }
