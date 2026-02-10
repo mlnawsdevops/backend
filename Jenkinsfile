@@ -19,7 +19,7 @@ pipeline{
                 // defining variable
                 def packageJson = readJSON file: 'package.json' // web= pipeline utility steps --> readjson
                 appVersion = packageJson.version // dynamically fetch the version from package.json
-                echo "App version: ${appVersion}" // 1.0.0
+                echo "App version: ${appVersion}" // 1.0.0 
                 }
             }
         }
