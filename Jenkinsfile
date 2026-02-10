@@ -33,7 +33,7 @@ pipeline{
         stage('Docker build'){
             steps{
                 sh """
-                docker build -t mlndockerhub/backend:${appVersion}
+                docker build -t mlndockerhub/backend:${appVersion} .
                 docker images
                 """
             }
