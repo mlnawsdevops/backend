@@ -29,5 +29,14 @@ pipeline{
                 sh 'npm install'
             }
         }
+
+        stage('Docker build'){
+            steps{
+                sh """
+                docker build -t mlndockerhub/backend:${appVersion}
+                docker images
+                """
+            }
+        }
     }
 }
