@@ -1,17 +1,30 @@
+// 1. read the code  version
+// 2. install dependencies
+// 3. docker build
+// 4. push images to ecr
+// 5. k8 deployment
+
 pipeline{
     agent{
-        label 'AGENT-1'
+        label 'AGENT-1' // jenkins agent server
     }
 
     options{
-        timeout(time: 30, unit: 'MINUTES')
-        disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES') // pipeline run time
+        disableConcurrentBuilds() // only one build run at a time
     }
 
     environment{
         appVersion = '' // this will become global, we can use across pipeline
+        DEBUG = 'true'
+        region = 'us-east-1'
+        account_id = '529088275803'
+        project = 'expense'
+        environment = 'dev'
+        component = 'backend'
     }
 
+    // read the package.json code version
     stages{
         stage('Read the version'){
             steps{
@@ -24,17 +37,25 @@ pipeline{
             }
         }
 
+        // install npm dependencies on agent
         stage('Install Dependencies'){
             steps{
                 sh 'npm install'
             }
         }
 
+        // install docker on agent and run Dockerfile
         stage('Docker build'){
             steps{
                 sh """
-                docker build -t mlndockerhub/backend:${appVersion} .
-                docker images
+                    aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.us-east-1.amazonaws.com
+
+                    docker build -t ${account_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion} .
+
+                    docker images
+
+                    docker push ${account_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion}
+
                 """
             }
         }
