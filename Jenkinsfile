@@ -69,8 +69,8 @@ pipeline{
                     sh """
                         aws eks update-kubeconfig --region us-east-1 --name expense-dev
                         cd helm
-                        sed -i 's/IMAGE_VERSION/${appVersion}/g' values-dev.yml
-                        helm upgrade --install backend -n expense -f values-dev.yml .
+                        sed -i 's/IMAGE_VERSION/${appVersion}/g' values-dev.yaml
+                        helm upgrade --install backend -n expense -f values-dev.yaml .
 
                     """
                 }
