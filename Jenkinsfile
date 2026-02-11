@@ -47,16 +47,18 @@ pipeline{
         // install docker on agent and run Dockerfile
         stage('Docker build'){
             steps{
-                sh """
-                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 529088275803.dkr.ecr.us-east-1.amazonaws.com
+                withAWS(region: 'us-east-1', credentials: 'aws-creds'){
+                    sh """
+                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 529088275803.dkr.ecr.us-east-1.amazonaws.com
 
-                    docker build -t ${account_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion} .
+                        docker build -t ${account_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion} .
 
-                    docker images
+                        docker images
 
-                    docker push ${account_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion}
+                        docker push ${account_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion}
 
-                """
+                    """
+                }
             }
         }
     }
