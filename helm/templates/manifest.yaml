@@ -51,7 +51,6 @@ metadata:
   name: backend
   namespace: expense
 spec:
-  type: clusterIP
   selector:
     app: backend
     project: expense
