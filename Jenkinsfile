@@ -48,7 +48,7 @@ pipeline{
         stage('Docker build'){
             steps{
                 sh """
-                    aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.us-east-1.amazonaws.com
+                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 529088275803.dkr.ecr.us-east-1.amazonaws.com
 
                     docker build -t ${account_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion} .
 
