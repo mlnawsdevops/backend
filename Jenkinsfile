@@ -71,7 +71,6 @@ pipeline{
                         cd helm
                         sed -i 's/IMAGE_VERSION/${appVersion}/g' values-dev.yaml
                         helm upgrade --install backend -n expense -f values-dev.yaml .
-
                     """
                 }
             }
